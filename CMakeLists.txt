@@ -5,8 +5,9 @@ project(BagFromImages)
 
 rosbuild_init()
 
-FIND_PACKAGE(OpenCV REQUIRED)
+FIND_PACKAGE(OpenCV 3.2 REQUIRED)
 FIND_PACKAGE(glog REQUIRED)
+FIND_PACKAGE(gflags REQUIRED)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
@@ -17,5 +18,6 @@ rosbuild_add_boost_directories()
 rosbuild_link_boost(${PROJECT_NAME} thread system)
 target_link_libraries (${PROJECT_NAME}
 glog::glog
+gflags
 /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4
 ${OpenCV_LIBS})
