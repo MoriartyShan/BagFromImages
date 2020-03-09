@@ -77,20 +77,22 @@ void write_image_into_bag(
 void write_imu_into_bag(
     const std::string &path, rosbag::Bag &bag, const std::string &topic){
   std::ifstream imu_data(path);
-  std::stringstream ss;
-  unsigned long long ts;
-  double second_t;
+
   if (imu_data.is_open()) {
     const int imu_size = 6;
     std::vector<double> imu(imu_size);
     char comma;
+    std::stringstream ss;
     std::string line;
+    unsigned long long ts;
+    double second_t;
     sensor_msgs::ImuPtr imu_msg = boost::make_shared<sensor_msgs::Imu>();
     while (!imu_data.eof()) {
       std::getline(imu_data, line);
       if (line.empty()) {
         break;
       }
+      ss.clear();
       ss.str(line);
       ss >> ts;
       ss >> comma;
@@ -109,7 +111,8 @@ void write_imu_into_bag(
       imu_msg->linear_acceleration.x = imu[3];
       imu_msg->linear_acceleration.y = imu[4];
       imu_msg->linear_acceleration.z = imu[5];
-
+      if (!ros::ok())
+        break;
       bag.write(topic.c_str(),
           ros::Time(second_t), imu_msg);
     }
