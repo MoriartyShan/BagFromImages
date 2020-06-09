@@ -237,7 +237,7 @@ int main(int argc, char **argv) {
   std::string bagname = FLAGS_data_path + "/" + FLAGS_filename;
   rosbag::Bag bag_out(bagname.c_str(), rosbag::bagmode::Write);
   if (!FLAGS_video_topic.empty()) {
-    write_video_into_bag(FLAGS_video_path, bag_out, "/cam0/image_raw");
+    write_video_into_bag(FLAGS_video_path, bag_out, FLAGS_video_topic);
   }
 
 
